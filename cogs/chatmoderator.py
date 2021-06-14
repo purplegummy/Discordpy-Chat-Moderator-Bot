@@ -6,7 +6,7 @@ from discord.ext import commands
 class ChatModeratorCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.channel = self.bot.get_channel() #ID of channel that will contain the reported messages
+      
     @commands.Cog.listener()
     async def on_ready(self):
         await self.bot.change_presence(status=discord.Status.idle, activity=discord.Game('Moderating Chats!'))
@@ -34,6 +34,7 @@ class ChatModeratorCog(commands.Cog):
 
         # Profanity Detection
         if not message.author.bot:
+            channel = self.bot.get_channel()  #ID of channel that will contain the reported messages
             score = response["attributeScores"]["PROFANITY"]["summaryScore"]["value"] * 100
             print(score)
             if score > 75:
@@ -48,7 +49,7 @@ class ChatModeratorCog(commands.Cog):
                 embed.add_field(name="Author ID", value=message.author.id, inline=False)
 
                 embed.set_footer(icon_url=url, text="Message Sent By " + str(message.author))
-                await self.channel.send(embed=embed)
+                await channel.send(embed=embed)
 
 
 
